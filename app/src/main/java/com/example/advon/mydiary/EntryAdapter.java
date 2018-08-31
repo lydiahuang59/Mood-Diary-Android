@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,7 +31,8 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.MyViewHolder
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public String body = "";
         public String titleText = "";
-        public int emotion = 0;
+        public ArrayList<Integer> emotions = new ArrayList<>();
+        public ArrayList<Integer> powers = new ArrayList<>();
         public TextView title, date;
         public ImageView thumbnail, overflow;
 
@@ -62,7 +65,8 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.MyViewHolder
         holder.title.setText(entry.getTitle());
         holder.date.setText(entry.getDate());
         holder.body = entry.getBody();
-        holder.emotion = entry.getMood();
+        holder.emotions = entry.getMoods();
+        holder.powers = entry.getMoodLevel();
         holder.titleText = entry.getTitle();
 
         // loading album cover using Glide library
@@ -82,7 +86,8 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.MyViewHolder
                 Bundle b = new Bundle();
                 b.putString(DiaryActivity.DIARY_TITLE, holder.titleText);
                 b.putString(DiaryActivity.DIARY_BODY, holder.body);
-                b.putInt(DiaryActivity.DIARY_EMOTION, holder.emotion);
+                b.putIntegerArrayList(DiaryActivity.DIARY_EMOTION, holder.emotions);
+                b.putIntegerArrayList(DiaryActivity.DIARY_EMOTION_LEVEL, holder.powers);
                 intent.putExtras(b);
                 mContext.startActivity(intent);
             }

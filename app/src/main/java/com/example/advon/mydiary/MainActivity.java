@@ -3,6 +3,7 @@ package com.example.advon.mydiary;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.graphics.Typeface;
@@ -40,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mainFont = Typeface.createFromAsset(getAssets(), "fonts/coolvetica.ttf");
         updateTime();
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -56,15 +56,16 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences appSharedPrefs = PreferenceManager
                 .getDefaultSharedPreferences(this.getApplicationContext());
         String json = appSharedPrefs.getString("DiaryEntries", "");
-        prepareEntries(json);
+        //prepareEntries(json);
 
         Bundle extras = this.getIntent().getExtras();
         if (extras != null && !extras.isEmpty()) {
             String new_time = extras.getString(DiaryActivity.DIARY_TIME);
             String new_title = extras.getString(DiaryActivity.DIARY_TITLE);
             String new_entry = extras.getString(DiaryActivity.DIARY_BODY);
-            int new_emotion = extras.getInt(DiaryActivity.DIARY_EMOTION);
-            addNewEntry(new_time, new_title, new_entry, new_emotion);
+            ArrayList<Integer> new_emotions = extras.getIntegerArrayList(DiaryActivity.DIARY_EMOTION);
+            ArrayList<Integer> emotion_powers = extras.getIntegerArrayList(DiaryActivity.DIARY_EMOTION_LEVEL);
+            addNewEntry(new_time, new_title, new_entry, new_emotions, emotion_powers);
         }
     }
 
@@ -148,13 +149,14 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Converting dp to pixel
      */
-    private int dpToPx(int dp) {
+    public int dpToPx(int dp) {
         Resources r = getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 
-    protected void addNewEntry(String time, String title, String entry, int emotion) {
-        DiaryEntry newEntry = new DiaryEntry(title, time, entry, emotion);
+    protected void addNewEntry(String time, String title, String entry, ArrayList<Integer> emotions,
+                               ArrayList<Integer> powers) {
+        DiaryEntry newEntry = new DiaryEntry(title, time, entry, emotions, powers);
         entryList.add(newEntry);
         adapter.notifyDataSetChanged();
     }
@@ -166,8 +168,9 @@ public class MainActivity extends AppCompatActivity {
         currentTime.setFormat12Hour("hh:mm a");
         currentDate.setFormat12Hour("EEE, MMM d");
 
-        currentTime.setTypeface(mainFont);
-        currentDate.setTypeface(mainFont);
+        Typeface typeface = ResourcesCompat.getFont(this, R.font.fjalla_one);
+        currentTime.setTypeface(typeface);
+        currentDate.setTypeface(typeface);
         }
 
     public void newEntry(View view) {

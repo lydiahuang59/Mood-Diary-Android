@@ -8,12 +8,15 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.view.View;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 public class EmotionChoice extends AppCompatActivity {
 
     private int currentName = 0;
+    private int currentLevel = 0;
     public final static String EMOTION = "current_emotion";
+    public final static String EMOTION_LEVEL = "current_emotion_level";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +37,25 @@ public class EmotionChoice extends AppCompatActivity {
                 }
                 emotion.setText(name);
                 currentName = current;
+            }
+        });
 
+        SeekBar emotionLevel = (SeekBar) findViewById(R.id.emotionLevel);
+        emotionLevel.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                TextView display = findViewById(R.id.emotionLevelText);
+                display.setText("Emotion strength: " + Integer.toString(progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                currentLevel = seekBar.getProgress();
             }
         });
     }
@@ -43,6 +64,7 @@ public class EmotionChoice extends AppCompatActivity {
         Intent returnIntent = new Intent();
         if (currentName != 0) {
             returnIntent.putExtra(EMOTION, currentName);
+            returnIntent.putExtra(EMOTION_LEVEL, currentLevel);
             setResult(Activity.RESULT_OK, returnIntent);
         }
         else {

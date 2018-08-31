@@ -32,10 +32,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignEnd="@+id/thumbnail"
                 android:layout_alignParentEnd="true"
+                android:fontFamily="@font/fjalla_one"
                 android:paddingLeft="@dimen/entry_title_padding"
                 android:paddingRight="@dimen/entry_title_padding"
                 android:paddingTop="@dimen/entry_title_padding"
-                android:textSize="@dimen/entry_title" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/date"
@@ -44,10 +45,11 @@
                 android:layout_alignEnd="@+id/thumbnail"
                 android:layout_alignParentEnd="true"
                 android:layout_below="@id/title"
+                android:fontFamily="@font/ubuntu"
                 android:paddingBottom="@dimen/entry_title_padding"
                 android:paddingLeft="@dimen/entry_title_padding"
                 android:paddingRight="@dimen/entry_title_padding"
-                android:textSize="@dimen/entry_date" />
+                android:textSize="14sp" />
 
             <ImageView
                 android:id="@+id/overflow"
