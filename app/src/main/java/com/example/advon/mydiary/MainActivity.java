@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences appSharedPrefs = PreferenceManager
                 .getDefaultSharedPreferences(this.getApplicationContext());
         String json = appSharedPrefs.getString("DiaryEntries", "");
-        //prepareEntries(json);
+        prepareEntries(json);
 
         Bundle extras = this.getIntent().getExtras();
         if (extras != null && !extras.isEmpty()) {
@@ -93,13 +93,15 @@ public class MainActivity extends AppCompatActivity {
     protected void prepareEntries(String json) {
         Gson gson = new Gson();
         Type type = new TypeToken<List<DiaryEntry>>(){}.getType();
-        List<DiaryEntry> newEntryList = gson.fromJson(json, type);
-        if (newEntryList != null) {
-            for (DiaryEntry i : newEntryList) {
-                entryList.add(i);
+        if (!json.equals("")) {
+            List<DiaryEntry> newEntryList = gson.fromJson(json, type);
+            if (newEntryList != null) {
+                for (DiaryEntry i : newEntryList) {
+                    entryList.add(i);
+                }
             }
+            adapter.notifyDataSetChanged();
         }
-        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -129,16 +131,16 @@ public class MainActivity extends AppCompatActivity {
             int column = position % spanCount; // item column
 
             if (includeEdge) {
-                outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
-                outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
+                outRect.left = spacing - column * spacing / spanCount;
+                outRect.right = (column + 1) * spacing / spanCount;
 
                 if (position < spanCount) { // top edge
                     outRect.top = spacing;
                 }
                 outRect.bottom = spacing; // item bottom
             } else {
-                outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
-                outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
+                outRect.left = column * spacing / spanCount;
+                outRect.right = spacing - (column + 1) * spacing / spanCount;
                 if (position >= spanCount) {
                     outRect.top = spacing; // item top
                 }

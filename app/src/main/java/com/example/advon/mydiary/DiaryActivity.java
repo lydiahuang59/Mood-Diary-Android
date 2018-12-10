@@ -57,7 +57,8 @@ public class DiaryActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.emotionDisplay);
         adapter = new EmotionAdapter(this, emotionList, emotionPower);
 
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this,
+                LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new SpacesItemDecoration(20));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -103,7 +104,6 @@ public class DiaryActivity extends AppCompatActivity {
                 parent.setPadding(halfSpace, halfSpace, halfSpace, halfSpace);
                 parent.setClipToPadding(false);
             }
-
             outRect.top = halfSpace;
             outRect.bottom = halfSpace;
             outRect.left = halfSpace;
